@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление{% endblock %}
+
+{% block content %}
+<div style="text-align: center; margin-top: 50px;">
+    <h2 style="color: #dc3545;">🗑️ Удаление</h2>
+    
+    <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 20px; border-radius: 5px; max-width: 500px; margin: 20px auto;">
+        <p><strong>Вы уверены, что хотите удалить "{{ object }}"?</strong></p>
+        <p style="color: #666; font-size: 14px;">Это действие необратимо.</p>
+    </div>
+    
+    <form method="POST" style="margin: 20px 0;">
+        {% csrf_token %}
+        <button type="submit" 
+                style="padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
+            Удалить
+        </button>
+        <a href="javascript:history.back()" 
+           style="padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 5px;">
+            Отмена
+        </a>
+    </form>
+</div>
+{% endblock %}

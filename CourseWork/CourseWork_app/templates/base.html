@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Медицинская система - {% block title %}Главная{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>🏥 Медицинская система</h1>
+            <ul class="nav-menu">
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <li><a href="{% url 'patients' %}">Пациенты</a></li>
+                <li><a href="{% url 'doctors' %}">Врачи</a></li>
+                <li><a href="{% url 'diagnoses' %}">Диагнозы</a></li>
+                <li><a href="{% url 'specialties' %}">Специальности</a></li>
+                <li><a href="{% url 'appointment_create' %}">Запись</a></li>
+                <li><a href="{% url 'navigator' %}">Навигатор</a></li>
+                <li><a href="{% url 'about' %}">О системе</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

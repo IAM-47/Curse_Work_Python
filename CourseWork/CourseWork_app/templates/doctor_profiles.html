@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Профиль врача{% endblock %}
+
+{% block content %}
+
+{% if error %}
+    <div style="background: #f8d7da; color: #721c24; padding: 20px; border-radius: 5px; margin: 20px 0;">
+        <h3>❌ Ошибка</h3>
+        <p>{{ error }}</p>
+    </div>
+{% else %}
+    <div style="max-width: 800px; margin: 0 auto;">
+        <h2>👨‍⚕️ Профиль врача</h2>
+        <div style="background: white; text-align: center; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <!-- Основная информация из doctors.xlsx -->
+            {% with specialization=doctor.Специальность|lower %}
+                <img src="{% static 'images/' %}{{ specialization }}.jpeg"
+                     alt="{{ doctor.Специальность }}"
+                     style="width: 150px; height: 200px; border-radius: 5%; object-fit: cover; image-align: center; border: 3px solid #3498db;"
+                     onerror="this.src='{% static 'images/doctors/default.jpeg' %}'">
+                {% endwith %}
+            <div style="margin-bottom: 25px;">
+                <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; text-align: center;">
+                    {{ doctor.Фамилия }}
+                    {{ doctor.Имя }}
+                    {{ doctor.Отчество }}
+                </h3>
+            </div>
+
+            <!-- Обновленные данные из doctor_profiles.xlsx -->
+            {% if profile %}
+            <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; border-left: 4px solid #2ecc71;">
+                <h4 style="margin-bottom: 15px;">👤 О Враче</h4>
+
+                <!-- ОТЛАДКА - покажем все данные профиля -->
+                <div style="margin-top: 15px; padding: 10px; border-radius: 5px; font-size: 16px;">
+                    {% if doctor.Специальность %}
+                    <div>
+                        <strong>Специальность:</strong>
+                        {{ doctor.Специальность }}
+                    </div>
+                    {% endif %}
+
+                    {% if doctor.Стаж %}
+                    <div style="margin-top: 15px;">
+                        <strong>Стаж:</strong>
+                        {{ doctor.Стаж }}
+                    </div>
+                    {% endif %}
+
+                    {% if doctor.Телефон %}
+                    <div style="margin-top: 15px;">
+                        <strong>Телефон:</strong>
+                        {{ doctor.Телефон }}
+                    </div>
+                    {% endif %}
+                    {% for key, value in profile.items %}
+                        <div style="margin-top: 15px;">
+                            <strong>{{ key }}:</strong> {{ value }}<br>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+<div style="margin-top: 20px; text-align: left;">
+    <!-- КНОПКА ДОБАВЛЕНИЯ ПРОФИЛЯ (показываем только если профиля нет) -->
+    {% if not profile %}
+    <a href="{% url 'doctor_full_update' doctor_id %}"
+       style="color: #007bff; padding: 10px 15px; border: 1px solid #007bff; border-radius: 5px; text-decoration: none;">
+        ➕ Добавить профиль
+    </a>
+    {% endif %}
+
+    <!-- КНОПКА УДАЛЕНИЯ ВРАЧА (всегда показываем) -->
+    <a href="{% url 'doctor_delete' doctor_id %}"
+       style="color: #dc3545; padding: 10px 15px; border: 1px solid #dc3545; border-radius: 5px; text-decoration: none; margin-left: 10px;">
+        🗑️ Удалить врача
+    </a>
+</div>
+
+<div style="margin-top: 25px; text-align: left;">
+    <a href="/doctors/" style="padding: 10px 20px; background: #3498db; color: white; text-decoration: none; border-radius: 5px; margin-right: 5px;">
+        ← Назад к списку врачей
+    </a>
+    <a href="/navigator/" style="padding: 10px 20px; background: #2ecc71; color: white; text-decoration: none; border-radius: 5px;">
+        🧭 Навигатор
+    </a>
+</div>
+
+{% endblock %}

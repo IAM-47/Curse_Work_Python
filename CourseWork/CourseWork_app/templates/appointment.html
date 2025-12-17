@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Запись на прием{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+
+    <h2>📝 Запись на прием к врачу</h2>
+    
+    <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        
+        <form method="POST">
+            {% csrf_token %}  <!-- Защита от взлома -->
+            
+            <!-- Показываем ошибки формы -->
+            {% if form.errors %}
+            <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                ❌ Исправьте ошибки в форме
+            </div>
+            {% endif %}
+            
+            <!-- Отображаем все поля формы -->
+            {% for field in form %}
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                <small style="color: #666; font-size: 12px;">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <div style="color: #dc3545; font-size: 14px; margin-top: 5px;">
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            
+            <!-- Кнопки -->
+            <div style="display: flex; gap: 10px; margin-top: 25px;">
+                <button type="submit" 
+                        style="padding: 12px 25px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    ✅ Записаться на прием
+                </button>
+                <a href="{{ back_url }}" style="background: #6c757d; color: white; text-decoration: none; display: inline-block; border-radius: 5px; padding: 5px">❌
+                    Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 40px 20px;">
+    <h2>🏥 Добро пожаловать в медицинскую систему!</h2>
+    <p style="font-size: 18px; color: #666; margin-bottom: 30px;">
+        Система управления пациентами, врачами и медицинскими записями
+    </p>
+    
+    <div style="background: #e8f4fd; padding: 30px; border-radius: 10px; margin: 20px 0;">
+        <h3>Быстрый старт</h3>
+        <p>Используйте навигатор для доступа ко всем разделам системы:</p>
+        <a href="/navigator/" style="display: inline-block; padding: 12px 24px; background: #3498db; color: white; 
+           text-decoration: none; border-radius: 5px; margin: 15px 0; font-size: 16px;">
+           📋 Перейти к навигатору
+        </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+        <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #2ecc71;">
+            <h4>👥 Пациенты</h4>
+            <p>Справочник пациентов, информация о их мед. картах</p>
+            <a href="/patients/" style="color: #2ecc71;">Перейти →</a>
+        </div>
+        
+        <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #e74c3c;">
+            <h4>👨‍⚕️ Врачи</h4>
+            <p>Справочник медицинских специалистов</p>
+            <a href="/doctors/" style="color: #e74c3c;">Перейти →</a>
+        </div>
+        
+        <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #f39c12;">
+            <h4>🤒Диагнозы</h4>
+            <p>Памятка по диагнозам и методам их лечения</p>
+            <a href="/diagnoses/" style="color: #f39c12;">Перейти →</a>
+        </div>
+        <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #9b59b6; text-align: center;">
+            <h4>📝 Запись на прием</h4>
+            <p>Форма для создания новых записей</p>
+            <a href="/appointment/" style="color: #9b59b6;">Перейти →</a>
+        </div>
+        <div style="background: white; padding: 20px; text-align: center; border-radius: 8px; border-left: 4px solid #9b59b6; text-align: center;">
+            <h4>📝 Экспорт всех данных в Excel</h4>
+            <a href="{% url 'export_general_report' %}" style="color: #9b59b6;">Скачать →</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

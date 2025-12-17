@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Пациенты{% endblock %}
+
+{% block content %}
+<h2>📋 Список пациентов</h2>
+
+<!-- ФОРМА ДОБАВЛЕНИЯ ПАЦИЕНТА -->
+<div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+    <h3>➕ Добавить нового пациента</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            {% for field in patient_form %}
+            <div>
+                <label><strong>{{ field.label }}</strong></label>
+                {{ field }}
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit" name="add_patient"
+                style="margin-top: 15px; padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px;">
+            ✅ Добавить пациента
+        </button>
+    </form>
+</div>
+<!---->
+<div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+    <form method="get" action="">
+        <input type="text"
+               name="search"
+               value="{{ search_query }}"
+               placeholder="🔍 Поиск пациентов..."
+               style="padding: 8px; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
+        <button type="submit"
+                style="padding: 8px 15px; background: #3498db; color: white; border: none; border-radius: 4px;">
+            Найти
+        </button>
+        {% if search_query %}
+        <a href="?" style="margin-left: 10px; color: #666;">Сбросить</a>
+        {% endif %}
+    </form>
+</div>
+
+{% if patients %}
+    <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background: #2c3e50; color: white;">
+                {% for key in patients.0.keys %}
+                    {% if key != 'id' %}
+                        <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">{{ key }}</th>
+                    {% endif %}
+                {% endfor %}
+                <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for patient in patients %}
+        <tr onclick="window.location.href='/patient/{{ patient.id }}/'"
+            style="cursor: pointer; transition: background-color 0.3s;"
+            onmouseover="this.style.backgroundColor='#f8f9fa'"
+            onmouseout="this.style.backgroundColor='white'">
+            {% for key, value in patient.items %}
+                {% if key != 'id' %}
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ value }}</td>
+                {% endif %}
+            {% endfor %}
+            <td style="padding: 10px; border: 1px solid #ddd;">
+                <a href="{% url 'patient_full_update' patient.id %}" style="color: #007bff;">✏️ Редактировать</a>
+                <a href="{% url 'patient_delete' patient.id %}" style="color: #dc3545;">🗑️ Удалить</a>
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
+    </table>
+<div style="margin-top: 20px;">
+    <a href="{% url 'export_patients_txt' %}"
+       style="padding: 10px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 5px; margin-right: 5px;">
+        📄 Экспорт в TXT
+    </a>
+    <a href="{% url 'export_patients_excel' %}"
+       style="padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px;">
+        📊 Экспорт в Excel
+    </a>
+</div>
+
+    <p style="margin-top: 15px; color: #666;">
+        Всего пациентов: <strong>{{ patients|length }}</strong>
+    </p>
+{% else %}
+    <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px;">
+        ❌ Нет данных о пациентах
+    </div>
+{% endif %}
+
+<div style="margin-top: 20px;">
+    <a href="/" style="padding: 10px 15px; background: #3498db; color: white; text-decoration: none; border-radius: 5px; margin-right: 5px;">
+        ← На главную
+    </a>
+    <a href="/navigator/" style="padding: 10px 20px; background: #2ecc71; color: white; text-decoration: none; border-radius: 5px;">
+        🧭 Навигатор
+    </a>
+</div>
+{% endblock %}
